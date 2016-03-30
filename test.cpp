@@ -2,7 +2,7 @@
 #include "test.h"
 
 laplaceKern::PanelVector2 laplaceKern2DTest::a = laplaceKern::PanelVector2(1, 0);
-laplaceKern::PanelVector2 laplaceKern2DTest::b = laplaceKern::PanelVector2(-1, 0);
+laplaceKern::PanelVector2 laplaceKern2DTest::b = aplaceKern::PanelVector2(-1, 0);
 laplaceKern::Panel2 laplaceKern2DTest::pan = laplaceKern::Panel2(&laplaceKern2DTest::a, &laplaceKern2DTest::b);
 
 int main ( int, char *[] )
