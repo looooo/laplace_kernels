@@ -1,8 +1,8 @@
 #ifndef vtkWriter_H
 #define vtkWriter_H
 
-#include "laplace2DKernel.h"
-#include "laplace3DKernel.h"
+#include "laplaceKern2D.h"
+#include "laplaceKern3D.h"
 
 #include <iostream>
 #include <fstream>
@@ -33,15 +33,15 @@ public:
                double z_s, double z_e, int num_z);
     void writeScalar(
         double (*foo)(double x, double y, double z), 
-        const char* dataname="scalar_field");
+        const char* dataname);
     
     void writeVector2(
-        laplaceKern::Vector2 (*foo)(double x, double y, double z),
-        const char* dataname="vector_field");
+        laplaceKern2D::Vector (*foo)(double x, double y, double z),
+        const char* dataname);
 
     void writeVector3(
-        laplaceKern::Vector3 (*foo)(double x, double y, double z),
-        const char* dataname="vector_field");
+        laplaceKern3D::Vector (*foo)(double x, double y, double z),
+        const char* dataname);
 
     void createFile();
 };

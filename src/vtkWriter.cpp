@@ -8,7 +8,7 @@ VtkWriter::VtkWriter(const char* file_name)
 
 void VtkWriter::writeScalar(
     double (*foo)(double x, double y, double z),
-    const char* dataname="scalar_field")
+    const char* dataname)
 {
     double point[3];
     vtkSmartPointer<vtkDoubleArray> scalars = vtkSmartPointer<vtkDoubleArray>::New();
@@ -60,16 +60,15 @@ void VtkWriter::writePoints(
         }
     }
     this->structuredGrid->SetDimensions(num_x + 1, num_y + 1, num_z + 1);
-    cout << num_z << endl;
     this->structuredGrid->SetPoints(this->points);
 }
 
 void VtkWriter::writeVector2(
-        laplaceKern::Vector2 (*foo)(double x, double y, double z),
-        const char* dataname="vector_field")
+        laplaceKern2D::Vector (*foo)(double x, double y, double z),
+        const char* dataname)
 {
     double point[3];
-    laplaceKern::Vector2 vec;
+    laplaceKern2D::Vector vec;
     vtkSmartPointer<vtkDoubleArray> vectors = vtkSmartPointer<vtkDoubleArray>::New();
     vectors->SetNumberOfComponents(2);
     vtkSmartPointer<vtkPointData> pointdata = this->structuredGrid->GetPointData();
@@ -84,11 +83,11 @@ void VtkWriter::writeVector2(
 }
 
 void VtkWriter::writeVector3(
-        laplaceKern::Vector3 (*foo)(double x, double y, double z),
-        const char* dataname="vector_field")
+        laplaceKern3D::Vector (*foo)(double x, double y, double z),
+        const char* dataname)
 {
     double point[3];
-    laplaceKern::Vector3 vec;
+    laplaceKern3D::Vector vec;
     vtkSmartPointer<vtkDoubleArray> vectors = vtkSmartPointer<vtkDoubleArray>::New();
     vectors->SetNumberOfComponents(3);
     vtkSmartPointer<vtkPointData> pointdata = this->structuredGrid->GetPointData();

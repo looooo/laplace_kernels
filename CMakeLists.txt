@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 2.6)
 project(laplacekernels)
 
+
 ADD_DEFINITIONS(-std=c++11)
 find_package(Eigen3)
 find_package(VTK REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 include(${VTK_USE_FILE})
 include_directories( ${EIGEN3_INCLUDE_DIR})
-add_executable(laplacekernels test.cpp)
-target_link_libraries(laplacekernels ${VTK_LIBRARIES})
+add_subdirectory(src)
