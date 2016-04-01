@@ -2,6 +2,11 @@ dist: trusty
 language: cpp
 compiler: g++
 
+addons:
+  apt:
+    packages:
+    - libvtk6-dev
+
 before_install:
   - hg clone https://bitbucket.org/eigen/eigen
   - sudo mkdir /usr/include/eigen3/
