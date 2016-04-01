@@ -2,12 +2,10 @@ dist: trusty
 language: cpp
 compiler: g++
 
-addons:
-  apt:
-    packages:
-    - libvtk6-dev
 
 before_install:
+  - sudo apt-get update
+  - sudo apt-get install libvtk6* -q
   - hg clone https://bitbucket.org/eigen/eigen
   - sudo mkdir /usr/include/eigen3/
   - sudo cp eigen/Eigen/  /usr/include/eigen3/Eigen -r
