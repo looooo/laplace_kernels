@@ -3,21 +3,19 @@ package:
   version: 0.0.1
 
 build:
-  number: 2
+  number: 3
 
 source:
-  path: ../..
+  path: ../
 
 requirements:
   build:
     - python
     - cmake
-    - vtk
 
 requirements:
   run:
     - python
-    - vtk
 
 about:
   summary: Some laplace kernels

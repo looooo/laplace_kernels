@@ -5,7 +5,6 @@ compiler: g++
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install libvtk5* -q
   - hg clone https://bitbucket.org/eigen/eigen
   - sudo mkdir /usr/include/eigen3/
   - sudo cp eigen/Eigen/  /usr/include/eigen3/Eigen -r
@@ -14,9 +13,9 @@ before_install:
 install:
   - mkdir build
   - cd build
-  - cmake .. -DMAKE_TEST=1
+  - cmake ..
   - make
 
 script:
-  - build/src/test2D
-  - build/src/test3D
+  # - build/src/test2D
+  # - build/src/test3D
