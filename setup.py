@@ -7,7 +7,7 @@ ext2D = Extension("laplace/laplaceKern2D",
 ext3D = Extension()
 extVtkWriter = Extension()
 
-setup(name='ppm._ppm',
+setup(name='paraBEM._paraBEM',
       version='0.0.1',
       author='Loooo',
       requires='eigen',
@@ -15,7 +15,7 @@ setup(name='ppm._ppm',
       url="https://github.com/looooo/panelmethod",
       description='Wrap PM using pybind11',
       packages=files,
-      ext_modules=[Extension('ppm._ppm',
+      ext_modules=[Extension('paraBEM._paraBEM',
                    sources=src,
                    include_dirs=include_dirs,
                    extra_compile_args=['-std=c++11', '-fopenmp'],

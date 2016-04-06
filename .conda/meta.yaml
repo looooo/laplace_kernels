@@ -10,12 +10,8 @@ source:
 
 requirements:
   build:
-    - python
     - cmake
-
-requirements:
-  run:
-    - python
+    - eigen
 
 about:
   summary: Some laplace kernels

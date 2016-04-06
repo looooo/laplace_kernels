@@ -11,9 +11,9 @@ if (${MAKE_TEST})
     add_library(vtkwriter SHARED vtkWriter.cpp)
     target_link_libraries(vtkwriter ${VTK_LIBRARIES})
 
-    add_executable(test2D test2D.cpp vtkWriter.cpp)
+    add_executable(test2D test2D.cpp)
     target_link_libraries(test2D laplaceKern2D vtkwriter)
 
-    add_executable(test3D test3D.cpp vtkWriter.cpp)
+    add_executable(test3D test3D.cpp)
     target_link_libraries(test3D laplaceKern3D vtkwriter)
 endif()
