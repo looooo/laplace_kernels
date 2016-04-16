@@ -7,7 +7,7 @@ install(TARGETS laplaceKern2D laplaceKern3D LIBRARY DESTINATION lib/laplace)
 install(FILES laplaceKern2D.h laplaceKern3D.h DESTINATION include/laplace)
 
 # testing
-if (${MAKE_TEST})
+if (MAKE_TEST)
     add_library(vtkwriter SHARED vtkWriter.cpp)
     target_link_libraries(vtkwriter ${VTK_LIBRARIES})
 
