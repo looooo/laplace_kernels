@@ -39,16 +39,18 @@ variable names
 namespace laplaceKern2D
 {
     typedef Eigen::Vector2d Vector;
-    typedef std::shared_ptr<Vector> VectorPtr;
     const double coresize = 1.0e-13;
-
+    typedef std::shared_ptr<Vector> VectorPtr;
+  
     class Panel{        
     public:
         Panel(VectorPtr p1, VectorPtr p2);
         std::vector<VectorPtr> points;
-        Vector center, n, t;
+        Vector center, normal, tangent;
         double area = 0.;
     };
+    
+
 
 
     /************************-2D ELEMENT INFLUENCE-*********************/

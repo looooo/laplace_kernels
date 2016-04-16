@@ -13,11 +13,11 @@ namespace laplaceKern2D
     {
         this->points.push_back(p1);
         this->points.push_back(p2);
-        this->t = *p1 - *p2;
-        this->area = this->t.norm();
+        this->tangent = *p1 - *p2;
+        this->area = this->tangent.norm();
         this->center = (*p2 + *p1) / 2;
-        this->t.normalize();
-        this->n = normal2(this->t);
+        this->tangent.normalize();
+        this->normal = normal2(this->tangent);
     }
 
     double source(Vector& target, Vector& source)
@@ -45,9 +45,9 @@ namespace laplaceKern2D
 
     double doublet_0(Vector& target, Panel& source)
     {
-        double pn = (target - source.center).dot(source.n);
-        double dx1 = (*source.points[0] - target).dot(source.t);
-        double dx2 = (*source.points[1] - target).dot(source.t);
+        double pn = (target - source.center).dot(source.normal);
+        double dx1 = (*source.points[0] - target).dot(source.tangent);
+        double dx2 = (*source.points[1] - target).dot(source.tangent);
         if (pn * pn < coresize and (dx1 * dx1 + dx2 * dx2) <= (source.area * source.area))
         {
             return -0.5;
@@ -58,9 +58,9 @@ namespace laplaceKern2D
     double source_0(Vector& target, Panel& source)
     { 
         double pn, dx1, dx2, a, b, c;
-        pn = (target - source.center).dot(source.n);
-        dx1 = (*source.points[0] - target).dot(source.t);
-        dx2 = (*source.points[1] - target).dot(source.t);
+        pn = (target - source.center).dot(source.normal);
+        dx1 = (*source.points[0] - target).dot(source.tangent);
+        dx2 = (*source.points[1] - target).dot(source.tangent);
         if (pn == 0 and dx1 == 0)
         {
             a = 0;
@@ -116,40 +116,40 @@ namespace laplaceKern2D
     {
         Vector u, w, r1, r2;
         double pn, dx1, dx2;
-        pn = (target - source.center).dot(source.n);
+        pn = (target - source.center).dot(source.normal);
         r1 = target - *source.points[0];
         r2 = target - *source.points[1];
-        dx1 = r1.dot(source.t);
-        dx2 = r2.dot(source.t);
+        dx1 = r1.dot(source.tangent);
+        dx2 = r2.dot(source.tangent);
         if (pn == 0)
         {
             if (dx1 == 0 or dx2 == 0) //the corner of the panel is singular
             {
                 return r1 * 0;
             }
-            u = 0 * source.t;
-            w = (1 / dx1 - 1 / dx2) * source.n;
+            u = 0 * source.tangent;
+            w = (1 / dx1 - 1 / dx2) * source.normal;
         }
         else
         {
-            u = (pn / r1.dot(r1) - pn / r2.dot(r2)) * source.t;
-            w = (dx1 / r1.dot(r1)- dx2 / r2.dot(r2)) * source.n;
+            u = (pn / r1.dot(r1) - pn / r2.dot(r2)) * source.tangent;
+            w = (dx1 / r1.dot(r1)- dx2 / r2.dot(r2)) * source.normal;
         }
         return - (w - u) / M_PI / 2;
     }
 
     Vector source_0_v(Vector& target, Panel& source)
     { 
-        double pn = (target - source.center).dot(source.n);
+        double pn = (target - source.center).dot(source.normal);
 
-        double dx1 = (target - *source.points[0]).dot(source.t);
-        double dx2 = (target - *source.points[1]).dot(source.t);
+        double dx1 = (target - *source.points[0]).dot(source.tangent);
+        double dx2 = (target - *source.points[1]).dot(source.tangent);
         if (pn == 0 and ((abs(dx1) + abs(dx2)) <= source.area))
         {
-            return -0.5 * source.n;
+            return -0.5 * source.normal;
         }
-        Vector u = log((dx1 * dx1 + pn * pn) / (dx2 * dx2 + pn * pn) ) / 2  * source.t;
-        Vector w = (atan2(pn, dx2) - atan2(pn, dx1)) * source.n;
+        Vector u = log((dx1 * dx1 + pn * pn) / (dx2 * dx2 + pn * pn) ) / 2  * source.tangent;
+        Vector w = (atan2(pn, dx2) - atan2(pn, dx1)) * source.normal;
         return (u + w) / M_PI / 2;
     }
 }

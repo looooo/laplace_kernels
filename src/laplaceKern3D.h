@@ -4,6 +4,7 @@
 #include <Eigen/Core>
 #include <vector>
 #include <memory>
+#include <tuple>
 
 #include <iostream>
 #include <sstream>
@@ -47,7 +48,7 @@ namespace laplaceKern3D
     public:
         Panel(std::vector<VectorPtr>);
         std::vector<VectorPtr> points;
-        Vector center, n, m, l;
+        Vector center, normal, tangent_m, tangent_l;
         double area;
         double side_sum;
     };
@@ -58,7 +59,7 @@ namespace laplaceKern3D
         Edge(VectorPtr v1, VectorPtr v2);
         VectorPtr v1;
         VectorPtr v2;
-        Vector t;
+        Vector tangent;
     };
 
     // /************************-3D ELEMENT INFLUENCE-*********************/
@@ -68,8 +69,12 @@ namespace laplaceKern3D
     double dipole_0_n0(Vector& target, Panel& source);
     double dipole_0_sphere(Vector& target, Panel& source);    
     double dipole_0_vsaero(Vector& target, Panel& source);
-    void dip_mon_0_vsaero(Vector& target, Panel& source, double& dip_infl, double& mon_infl);
+    void dip_mon(Vector& target, Vector& source, Vector& direction, double& dip_infl, double& mon_infl);
     void dip_mon_0_n0(Vector& target, Panel& source, double& dip_infl, double& mon_infl);
+    void dip_mon_0_vsaero(Vector& target, Panel& source, double& dip_infl, double& mon_infl);
+    std::tuple<double, double> dip_mon(Vector& target, Vector& source, Vector& direction);
+    std::tuple<double, double> dip_mon_0_n0(Vector& target, Panel& source);
+    std::tuple<double, double> dip_mon_0_vsaero(Vector& target, Panel& source);
     
     Vector monopole_v(Vector& target, Vector& source);
     Vector monopole_0_n0_v(Vector& target, Panel& source);
@@ -80,8 +85,11 @@ namespace laplaceKern3D
     Vector vortex_v(Vector& target, Vector& source_point_0, Vector& source_point_1);
     Vector vortex_v(Vector& target, Edge& e);
     Vector vortex_half_infinity_v(Vector& target, Vector& source_point, Vector& source_direction);
-    Vector dip_mon_v(Vector& target, Vector& source, Vector& direction, Vector& dip_infl_v, Vector& mon_infl_v);
-    Vector dip_mon_0_n0_v(Vector& target, Panel& source, Vector& dip_infl_v, Vector& mon_infl_v);
-    Vector dip_mon_0_vsaero_v(Vector& target, Panel& source, Vector& dip_infl_v, Vector& mon_infl_v);
+    void dip_mon_v(Vector& target, Vector& source, Vector& direction, Vector& dip_infl_v, Vector& mon_infl_v);
+    void dip_mon_0_n0_v(Vector& target, Panel& source, Vector& dip_infl_v, Vector& mon_infl_v);
+    void dip_mon_0_vsaero_v(Vector& target, Panel& source, Vector& dip_infl_v, Vector& mon_infl_v);
+    std::tuple<Vector, Vector> dip_mon_v(Vector& target, Vector& source, Vector& direction);
+    std::tuple<Vector, Vector> dip_mon_0_n0_v(Vector& target, Panel& source);
+    std::tuple<Vector, Vector> dip_mon_0_vsaero_v(Vector& target, Panel& source);
 };
 #endif

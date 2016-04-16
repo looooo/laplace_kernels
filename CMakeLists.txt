@@ -7,12 +7,25 @@ SET(CMAKE_BUILD_TYPE REALEASE)
 SET(CMAKE_CXX_FLAGS_REALEASE "-O3")
 
 find_package(Eigen3)
-include_directories( ${EIGEN3_INCLUDE_DIR})
+include_directories(${EIGEN3_INCLUDE_DIR})
 
-if (${MAKE_TEST})
+option(MACE_TEST, "test require vtk" FALSE)
+
+if (MAKE_TEST)
     find_package(VTK REQUIRED)
     find_package(Qt5Widgets REQUIRED)
     include(${VTK_USE_FILE})
+endif()
+
+option(MAKE_PYTHON_BINDINGS "create python bindings" TRUE)
+
+if (MAKE_PYTHON_BINDINGS)
+    find_package(PythonInterp)
+    find_package(PythonLibs)
+    EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c 
+    "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+    OUTPUT_VARIABLE python_libs OUTPUT_STRIP_TRAILING_WHITESPACE )
+    include_directories( ${PYTHON_INCLUDE_DIRS})
 endif()
 
 add_subdirectory(src)
