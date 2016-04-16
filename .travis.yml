@@ -13,8 +13,8 @@ before_install:
 install:
   - mkdir build
   - cd build
-  - cmake ..
-  - make -DMAKE_PYTHON_BINDINGS=NO -DMAKE_TESTS=NO
+  - cmake -DMAKE_PYTHON_BINDINGS=NO -DMAKE_TESTS=NO ..
+  - make
 
 script:
   # - build/src/test2D
