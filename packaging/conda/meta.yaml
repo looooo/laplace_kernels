@@ -1,0 +1,17 @@
+package:
+  name: laplacekernels
+  version: 0.0.1
+
+build:
+  number: 4
+
+source:
+  path: ../
+
+requirements:
+  build:
+    - cmake
+    - eigen           #   - https://conda.anaconda.org/rmg
+
+about:
+  summary: Some laplace kernels
