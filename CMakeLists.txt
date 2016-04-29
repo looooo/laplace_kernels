@@ -14,7 +14,7 @@ option(MAKE_PYTHON_BINDINGS "create python bindings" ON)
 
 if (MAKE_TEST)
     find_package(VTK REQUIRED)
-    find_package(Qt5Widgets REQUIRED)
+    # find_package(Qt5Widgets REQUIRED)
     include(${VTK_USE_FILE})
 
     message("create test executable")
