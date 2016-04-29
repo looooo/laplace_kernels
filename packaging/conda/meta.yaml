@@ -10,8 +10,14 @@ source:
 
 requirements:
   build:
+    - python
+    - pybind11
     - cmake
     - eigen           #   - https://conda.anaconda.org/rmg
+    - vtk
+  run:
+    - python
+    - vtk
 
 about:
   summary: Some laplace kernels
