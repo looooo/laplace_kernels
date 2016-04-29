@@ -44,7 +44,7 @@ namespace laplaceKern3D
     }
 
 
-    double monopole(Vector& target, Vector& source)
+    double monopole(const Vector& target, const Vector& source)
     {
         double diff = (target - source).norm();
         if (diff < coresize)
@@ -52,12 +52,12 @@ namespace laplaceKern3D
         return 1 / diff / 4 / M_PI;
     }
     
-    double monopole_0_n0(Vector& target, Panel& source)
+    double monopole_0_n0(const Vector& target, const Panel& source)
     {
         return source.area * monopole(target, source.center);
     }
  
-    double dipole(Vector& target, Vector& source, Vector& normal)
+    double dipole(const Vector& target, const Vector& source, Vector normal)
     {
         Vector p_v = target - source;
         if (p_v.norm() < coresize)
@@ -66,28 +66,33 @@ namespace laplaceKern3D
         return - pn / pow(p_v.norm(), 3) / 4 / M_PI;
     }
 
-    double dipole_0_n0(Vector& target, Panel& source)
+    double dipole_0_n0(const Vector& target, const Panel& source)
     {
         return source.area * dipole(target, source.center, source.normal);
     }
     
-    double dipole_0_sphere(Vector& target, Panel& source)
+    double dipole_0_sphere(const Vector& target, const Panel& source)
     {
         Vector u1, u2, u3;
         double dip_infl = 0;
         
         u1 = source.center - target;
-        if (u1.norm() < coresize){
+        if (u1.norm() == 0.)
+            return -0.5;
+        else if (u1.dot(source.normal) == 0.){
             // point lies on the center of the panel
             // this will return the value of the integral, with the panel wrapped around the center point
             // in n direction.
-            return -0.5;
+
+            // to have good speeds no check if point lies on the panel is made
+            return 0;
         }
         u1.normalize();
         for (int i = 0; i < source.points.size(); i++){
             int j = (i == source.points.size()-1? 0 : i+1);
             u2 = *source.points[i] - target;
             u3 = *source.points[j] - target;
+            if (u2.norm())
             u2.normalize();
             u3.normalize();
             dip_infl -= atan2((u1.cross(u2)).dot(u3), (1 + u2.dot(u3) + u3.dot(u1) + u1.dot(u2))) * 0.5 / M_PI;
@@ -95,7 +100,7 @@ namespace laplaceKern3D
         return dip_infl;
     }
     
-    double dipole_0_vsaero(Vector & target, Panel& source)
+    double dipole_0_vsaero(const Vector & target, const Panel& source)
     {
         Vector p_v = target - source.center;
         double pn = p_v.dot(source.normal);
@@ -143,14 +148,14 @@ namespace laplaceKern3D
         return dip_infl * 0.25 / M_PI;
     }
     
-    void dip_mon(Vector& target, Vector& source, Vector& direction, double& dip_infl, double& mon_infl)
+    void dip_mon(const Vector& target, const Vector& source, Vector direction, double& dip_infl, double& mon_infl)
     {
         dip_infl = dipole(target, source, direction);
         mon_infl = monopole(target, source);
     }
 
 
-    void dip_mon_0_n0(Vector& target, Panel& source, double& dip_infl, double& mon_infl)
+    void dip_mon_0_n0(const Vector& target, const Panel& source, double& dip_infl, double& mon_infl)
     {
         Vector p_v = target - source.center;
         double diff = p_v.norm();
@@ -159,7 +164,7 @@ namespace laplaceKern3D
         mon_infl = source.area / diff / 4 / M_PI;
     }
 
-    void dip_mon_0_vsaero(Vector& target, Panel& source, double& dip_infl, double& mon_infl)
+    void dip_mon_0_vsaero(const Vector& target, const Panel& source, double& dip_infl, double& mon_infl)
     {
         Vector p_v = target - source.center;
         double pn = p_v.dot(source.normal);
@@ -211,14 +216,14 @@ namespace laplaceKern3D
         mon_infl /= 4. * M_PI;
     }
     
-    std::tuple<double, double> dip_mon(Vector& target, Vector& source, Vector& direction)
+    std::tuple<double, double> dip_mon(const Vector& target, const Vector& source, Vector direction)
     {
         double dip_infl_v = dipole(target, source, direction);
         double mon_infl_v = monopole(target, source);
         return std::make_tuple(dip_infl_v, mon_infl_v);
     }
     
-    std::tuple<double, double> dip_mon_0_n0(Vector& target, Panel& source)
+    std::tuple<double, double> dip_mon_0_n0(const Vector& target, const Panel& source)
     {
         double dip_infl_v;
         double mon_infl_v;
@@ -226,7 +231,7 @@ namespace laplaceKern3D
         return std::make_tuple(dip_infl_v, mon_infl_v);
     }
     
-    std::tuple<double, double> dip_mon_0_vsaero(Vector& target, Panel& source)
+    std::tuple<double, double> dip_mon_0_vsaero(const Vector& target, const Panel& source)
     {
         double dip_infl_v;
         double mon_infl_v;
@@ -234,7 +239,7 @@ namespace laplaceKern3D
         return std::make_tuple(dip_infl_v, mon_infl_v);
     }
     
-    Vector monopole_v(Vector& target, Vector& source)
+    Vector monopole_v(const Vector& target, const Vector& source)
     {
         Vector p_v = target - source;
         double diff = p_v.norm();
@@ -243,12 +248,12 @@ namespace laplaceKern3D
         return - 1 / pow(diff, 3) / 4 / M_PI * p_v;
     }
     
-    Vector monopole_0_n0_v(Vector& target, Panel& source)
+    Vector monopole_0_n0_v(const Vector& target, const Panel& source)
     {
         return source.area * monopole_v(target, source.center);
     }
 
-    Vector dipole_v(Vector& target, Vector& source, Vector& direction)
+    Vector dipole_v(const Vector& target, const Vector& source, Vector direction)
     {
         Vector r = target - source;
         if (r.norm() < coresize)
@@ -257,12 +262,12 @@ namespace laplaceKern3D
                (4. * M_PI * pow(r.dot(r), 5. / 2.));
     }
 
-    Vector dipole_0_n0_v(Vector& target, Panel& source)
+    Vector dipole_0_n0_v(const Vector& target, const Panel& source)
     {
         return source.area * dipole_v(target, source.center, source.normal);
     }
 
-    Vector vortex_v(Vector& target, Vector& source_point_0, Vector& source_point_1)
+    Vector vortex_v(const Vector& target, const Vector& source_point_0, const Vector& source_point_1)
     {
         Vector r0 = source_point_1 - source_point_0;
         Vector r1 = target - source_point_0;
@@ -275,12 +280,12 @@ namespace laplaceKern3D
         return Vector(0.,0.,0.);
     }
 
-    Vector vortex_v(Vector& target, Edge& e)
+    Vector vortex_v(const Vector& target, const Edge& e)
     {
         return vortex_v(target, *e.v1, *e.v2);
     }
 
-    Vector vortex_half_infinity_v(Vector& target, Vector& source_point, Vector& source_direction)
+    Vector vortex_half_infinity_v(const Vector& target, const Vector& source_point, Vector source_direction)
     {
         Vector r1 = target - source_point;
         Vector cross = r1.cross(source_direction);
@@ -291,7 +296,7 @@ namespace laplaceKern3D
         return Vector(0.,0.,0.);
     }
 
-    Vector monopole_0_vsaero_v(Vector& target, Panel& source)
+    Vector monopole_0_vsaero_v(const Vector& target, const Panel& source)
     {
         Vector dip_infl_v(0, 0, 0);
         Vector mon_infl_v(0, 0, 0);
@@ -299,7 +304,7 @@ namespace laplaceKern3D
         return mon_infl_v;
     }
 
-    Vector dipole_0_vsaero_v(Vector& target, Panel& source)
+    Vector dipole_0_vsaero_v(const Vector& target, const Panel& source)
     {
         Vector vel_infl(0, 0, 0);
         Vector p_v = target - source.center;
@@ -320,7 +325,7 @@ namespace laplaceKern3D
         return vel_infl;
     }
 
-    void dip_mon_0_vsaero_v(Vector& target, Panel& source, Vector& dip_infl_v, Vector& mon_infl_v)
+    void dip_mon_0_vsaero_v(const Vector& target, const Panel& source, Vector& dip_infl_v, Vector& mon_infl_v)
     {
         dip_infl_v.setZero();
         mon_infl_v.setZero();
@@ -379,7 +384,7 @@ namespace laplaceKern3D
         dip_infl_v /= 4. * M_PI;
     }
 
-    void dip_mon_v(Vector& target, Vector& source, Vector& direction, Vector& dip_infl_v, Vector& mon_infl_v)
+    void dip_mon_v(const Vector& target, const Vector& source, Vector direction, Vector& dip_infl_v, Vector& mon_infl_v)
     {
         Vector r = target - source;
         double diff = r.norm();
@@ -396,14 +401,14 @@ namespace laplaceKern3D
         }
     }
     
-    void dip_mon_0_n0_v(Vector& target, Panel& source, Vector& dip_infl_v, Vector& mon_infl_v)
+    void dip_mon_0_n0_v(const Vector& target, const Panel& source, Vector& dip_infl_v, Vector& mon_infl_v)
     {
         dip_mon_v(target, source.center, source.normal, dip_infl_v, mon_infl_v);
         dip_infl_v *= source.area;
         mon_infl_v *= source.area;
     }
 
-    std::tuple<Vector, Vector> dip_mon_v(Vector& target, Vector& source, Vector& direction)
+    std::tuple<Vector, Vector> dip_mon_v(const Vector& target, const Vector& source, Vector direction)
     {
         Vector dip_infl_v;
         Vector mon_infl_v;
@@ -411,7 +416,7 @@ namespace laplaceKern3D
         return std::make_tuple(dip_infl_v, mon_infl_v);
     }
 
-    std::tuple<Vector, Vector> dip_mon_0_n0_v(Vector& target, Panel& source)
+    std::tuple<Vector, Vector> dip_mon_0_n0_v(const Vector& target, const Panel& source)
     {
         Vector dip_infl_v;
         Vector mon_infl_v;
@@ -419,7 +424,7 @@ namespace laplaceKern3D
         return std::make_tuple(dip_infl_v, mon_infl_v);
     }
     
-    std::tuple<Vector, Vector> dip_mon_0_vsaero_v(Vector& target, Panel& source)
+    std::tuple<Vector, Vector> dip_mon_0_vsaero_v(const Vector& target, const Panel& source)
     {
         Vector dip_infl_v;
         Vector mon_infl_v;

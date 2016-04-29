@@ -19,6 +19,10 @@ namespace py = pybind11;
 namespace l2 = laplaceKern2D;
 namespace l3 = laplaceKern3D;
 
+
+// (l3::Vector (*)(const l3::Vector&, const l3::Vector&, const l3::Vector&)) &l3::vortex_v ->
+// this is for overloaded functions (returnType (*)(arg1type, arg2type...) &function-name)
+
 PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
 
 PYBIND11_PLUGIN(laplaceKern)
@@ -70,9 +74,12 @@ PYBIND11_PLUGIN(laplaceKern)
     m3.def("dipole_0_n0", &l3::dipole_0_n0);
     m3.def("dipole_0_sphere", &l3::dipole_0_sphere);
     m3.def("dipole_0_vsaero", &l3::dipole_0_vsaero);
-    m3.def("dip_mon", (std::tuple<double, double> (*)(l3::Vector&, l3::Vector&, l3::Vector&)) &l3::dip_mon);
-    m3.def("dip_mon_0_n0", (std::tuple<double, double> (*)(l3::Vector&, l3::Panel&)) &l3::dip_mon_0_n0);
-    m3.def("dip_mon_0_vsaero", (std::tuple<double, double> (*)(l3::Vector&, l3::Panel&)) &l3::dip_mon_0_vsaero);
+    m3.def("dip_mon", (std::tuple<double, double> (*)
+        (const l3::Vector&, const l3::Vector&, l3::Vector)) &l3::dip_mon);
+    m3.def("dip_mon_0_n0", (std::tuple<double, double> (*)
+        (const l3::Vector&, const l3::Panel&)) &l3::dip_mon_0_n0);
+    m3.def("dip_mon_0_vsaero", (std::tuple<double, double> (*)
+        (const l3::Vector&, const l3::Panel&)) &l3::dip_mon_0_vsaero);
 
     m3.def("monopole_v", &l3::monopole_v);
     m3.def("monopole_0_n0_v", &l3::monopole_0_n0_v);
@@ -80,12 +87,17 @@ PYBIND11_PLUGIN(laplaceKern)
     m3.def("dipole_v", &l3::dipole_v);
     m3.def("dipole_0_n0_v", &l3::dipole_0_n0_v);
     m3.def("dipole_0_vsaero_v", &l3::dipole_0_vsaero_v);
-    m3.def("vortex_v", (l3::Vector (*)(l3::Vector&, l3::Vector&, l3::Vector&))&l3::vortex_v);
-    m3.def("vortex_v", (l3::Vector (*)(l3::Vector&, l3::Edge&))&l3::vortex_v);
+    m3.def("vortex_v", (l3::Vector (*)
+        (const l3::Vector&, const l3::Vector&, const l3::Vector&)) &l3::vortex_v);
+    m3.def("vortex_v", (l3::Vector (*)
+        (const l3::Vector&, const l3::Edge&))&l3::vortex_v);
     m3.def("vortex_half_infinity_v", &l3::vortex_half_infinity_v);
-    m3.def("dip_mon_v", (std::tuple<l3::Vector, l3::Vector> (*)(l3::Vector&, l3::Vector&, l3::Vector&)) &l3::dip_mon_v);
-    m3.def("dip_mon_0_n0_v", (std::tuple<l3::Vector, l3::Vector> (*)(l3::Vector&, l3::Panel&)) &l3::dip_mon_0_n0_v);
-    m3.def("dip_mon_0_vsaero_v", (std::tuple<l3::Vector, l3::Vector> (*)(l3::Vector&, l3::Panel&)) &l3::dip_mon_0_vsaero_v);
+    m3.def("dip_mon_v", (std::tuple<l3::Vector, l3::Vector> (*)
+        (const l3::Vector&, const l3::Vector&, l3::Vector)) &l3::dip_mon_v);
+    m3.def("dip_mon_0_n0_v", (std::tuple<l3::Vector, l3::Vector> (*)
+        (const l3::Vector&, const l3::Panel&)) &l3::dip_mon_0_n0_v);
+    m3.def("dip_mon_0_vsaero_v", (std::tuple<l3::Vector, l3::Vector> (*)
+        (const l3::Vector&, const l3::Panel&)) &l3::dip_mon_0_vsaero_v);
 
     return m.ptr();
 };

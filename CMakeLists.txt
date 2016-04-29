@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(laplacekernels)
 
-ADD_DEFINITIONS(-std=c++11)
+ADD_DEFINITIONS(-std=c++14)
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 SET(CMAKE_BUILD_TYPE REALEASE)
 SET(CMAKE_CXX_FLAGS_REALEASE "-O3")
@@ -9,15 +9,17 @@ SET(CMAKE_CXX_FLAGS_REALEASE "-O3")
 find_package(Eigen3)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-option(MACE_TEST, "test require vtk" FALSE)
+option(MAKE_TEST "test require vtk" ON)
+option(MAKE_PYTHON_BINDINGS "create python bindings" ON)
 
 if (MAKE_TEST)
     find_package(VTK REQUIRED)
     find_package(Qt5Widgets REQUIRED)
     include(${VTK_USE_FILE})
+
+    message("create test executable")
 endif()
 
-option(MAKE_PYTHON_BINDINGS "create python bindings" TRUE)
 
 if (MAKE_PYTHON_BINDINGS)
     find_package(PythonInterp)

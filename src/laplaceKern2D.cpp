@@ -20,13 +20,13 @@ namespace laplaceKern2D
         this->normal = normal2(this->tangent);
     }
 
-    double source(Vector& target, Vector& source)
+    double source(const Vector& target, const Vector& source)
     {
         if ((target - source).norm() == 0){return 0;}
         return 1. / 2. / M_PI * log((target - source).norm());
     }
 
-    double doublet(Vector& target, Vector& source, Vector& direction)
+    double doublet(const Vector& target, const Vector& source, Vector direction)
     {
         Vector r = target - source;
         direction.normalize();
@@ -35,7 +35,7 @@ namespace laplaceKern2D
         return - 1. / 2. / M_PI * direction.dot(r) / r.dot(r);
     }
 
-    double vortex(Vector& target, Vector& source, Vector& direction)
+    double vortex(const Vector& target, const Vector& source, Vector direction)
     {
         direction.normalize();
         double pn = (target - source).dot(normal2(direction));
@@ -43,7 +43,7 @@ namespace laplaceKern2D
         return - atan2(pn , dx) / (2. * M_PI);  
     }
 
-    double doublet_0(Vector& target, Panel& source)
+    double doublet_0(const Vector& target, const Panel& source)
     {
         double pn = (target - source.center).dot(source.normal);
         double dx1 = (*source.points[0] - target).dot(source.tangent);
@@ -55,7 +55,7 @@ namespace laplaceKern2D
         return - (atan2(pn , dx2) - atan2(pn , dx1)) / (2. * M_PI);  
     }
 
-    double source_0(Vector& target, Panel& source)
+    double source_0(const Vector& target, const Panel& source)
     { 
         double pn, dx1, dx2, a, b, c;
         pn = (target - source.center).dot(source.normal);
@@ -81,14 +81,14 @@ namespace laplaceKern2D
         return -(a + b) / (4. * M_PI);
     }
 
-    Vector source_v(Vector& target, Vector& source)
+    Vector source_v(const Vector& target, const Vector& source)
     {
         Vector r= target - source;
         if (r.norm() == 0){return r * 0;}
         return 1. / 2. / M_PI * r / r.dot(r);
     }
 
-    Vector doublet_v(Vector& target, Vector& source, Vector& direction)
+    Vector doublet_v(const Vector& target, const Vector& source, Vector direction)
     {
         direction.normalize();
         Vector r = (target - source);
@@ -99,7 +99,7 @@ namespace laplaceKern2D
         return 1. / 2. / M_PI / r_dot_r * v;
     }
 
-    Vector vortex_v(Vector& target, Vector& source)
+    Vector vortex_v(const Vector& target, const Vector& source)
     {
         Vector r = target - source;
         if (r.norm() == 0)
@@ -112,7 +112,7 @@ namespace laplaceKern2D
         return normal2(r / r.dot(r) / 2 / M_PI);
     }
 
-    Vector doublet_0_v(Vector& target, Panel& source)
+    Vector doublet_0_v(const Vector& target, const Panel& source)
     {
         Vector u, w, r1, r2;
         double pn, dx1, dx2;
@@ -138,7 +138,7 @@ namespace laplaceKern2D
         return - (w - u) / M_PI / 2;
     }
 
-    Vector source_0_v(Vector& target, Panel& source)
+    Vector source_0_v(const Vector& target, const Panel& source)
     { 
         double pn = (target - source.center).dot(source.normal);
 

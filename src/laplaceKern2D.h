@@ -55,16 +55,16 @@ namespace laplaceKern2D
 
     /************************-2D ELEMENT INFLUENCE-*********************/
 
-    double source(Vector& target, Vector& source);
-    double doublet(Vector& target, Vector& source, Vector& direction);
-    double vortex(Vector& target, Vector& source, Vector& direction);
-    double source_0(Vector& target, Panel& source);
-    double doublet_0(Vector& target, Panel& source);
+    double source(const Vector& target, const Vector& source);
+    double doublet(const Vector& target, const Vector& source, Vector direction);
+    double vortex(const Vector& target, const Vector& source, Vector direction);
+    double source_0(const Vector& target, const Panel& source);
+    double doublet_0(const Vector& target, const Panel& source);
 
-    Vector source_v(Vector& target, Vector& source);
-    Vector doublet_v(Vector& target, Vector& source, Vector& direction);
-    Vector vortex_v(Vector& target, Vector& source);
-    Vector source_0_v(Vector& target, Panel& source);
-    Vector doublet_0_v(Vector& target, Panel& source);
+    Vector source_v(const Vector& target, const Vector& source);
+    Vector doublet_v(const Vector& target, const Vector& source, Vector direction);
+    Vector vortex_v(const Vector& target, const Vector& source);
+    Vector source_0_v(const Vector& target, const Panel& source);
+    Vector doublet_0_v(const Vector& target, const Panel& source);
 }
 #endif

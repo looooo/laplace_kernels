@@ -27,7 +27,7 @@ double test_monopole_0_n0(double x, double y, double z)
 double test_dipole(double x, double y, double z)
 {
     Vector v (x, y, z);
-    return dipole(v, pan.center, pan.n);
+    return dipole(v, pan.center, pan.normal);
 }
 double test_dipole_0_n0(double x, double y, double z)
 {
@@ -52,7 +52,7 @@ Vector test_monopole_0_n0_v(double x, double y, double z)
 Vector test_dipole_v(double x, double y, double z)
 {
     Vector v (x, y, z);
-    return dipole_v(v, pan.center, pan.n);
+    return dipole_v(v, pan.center, pan.normal);
 }
 Vector test_dipole_0_n0_v(double x, double y, double z)
 {
@@ -67,7 +67,7 @@ Vector test_vortex_v(double x, double y, double z)
 Vector test_vortex_halfinfinity_v(double x, double y, double z)
 {
     Vector v (x, y, z);
-    return vortex_half_infinity_v(v, *edge.v1, edge.t);
+    return vortex_half_infinity_v(v, *edge.v1, edge.tangent);
 }
 Vector test_monopole_0_vsaero_v(double x, double y, double z)
 {
