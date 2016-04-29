@@ -1,28 +1,26 @@
 dist: trusty
 language: cpp
-compiler: g++
-
-
-before_install:
-
+env:
+  global:
+    - secure: cG5RtRe5dn8sK0z1MBj1ZLhIWGHFYl3/P0RHTaVMHMAwLNbqbGxlIVEPiYlXJje5gqFTaQgPcrvzu2z/DjUfh+ZqCm2b7tXgyIYhlX+JZxeDywis8o8sd28z5wXG4YiFGxgPQ8vyHxdvnZfL70A4X8gOMoHbX/R3x8bKm/KZPCLBeDAKet3gGq/iWqWVVRU7Leuh7SpUb3FHzMol6HBiFVHFIgQ4FiYUU5LCiBsGxKzcasuMjnlSy/Zy2R5i2OR3UK10dn1BzoH8kM44TYUmTDZKrXjGQKAw0tkkedEe7EIcfsrj3MfbPcJkdpnoN4UC5bOUJ77opcKdI7LFgJM7tuVfw9UK5xHDEMi73OefnVvpgnMMxyPHEfex+N05QStcdxK2D/jfUIUufS/H9R0gZ/R7aAFfCKk/pV8jfNhE+omXaohyHWnBFRr4ejqfDJWahOAZ91Ec6Yw7IF5xTSH2MSBFBaA+iSL7sHte9rcXGw/05+7frUb+E/0QMUQZRdAgJgECCB9TB9Dw5FtzEOWsBDkS7ydUnikjyZeFHO6BhbuzTbqQXLUHD66+B/6ftXMoaZbmNMaAM940jc4OpVr73euZW5B91qZysFvQ6x3dcDTwBK1ba65ZPsq6Y+ZOGXLhB+GOPYqgdB846FpRos07DPGrD7RmQPXKNdm7Do8gJpc=
+python:
+- '3.5'
 install:
-    - sudo apt-get update
-    - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-        wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
-    - bash miniconda.sh -b -p $HOME/miniconda
-    - export PATH="$HOME/miniconda/bin:$PATH"
-    - hash -r
-    - conda config --set always_yes yes --set changeps1 no
-    - conda update -q conda
-    # Useful for debugging any issues with conda
-    - conda info -a
-
-    # Replace dep1 dep2 ... with your dependencies
-    - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION dep1 dep2 ...
-    - source activate test-environment
-
-    - conda config --add channels https://conda.anaconda.org/rmg
-    - conda packaging/conda
+- sudo apt-get update
+- wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+- ./miniconda.sh
+- bash miniconda.sh -b -p $HOME/miniconda
+- export PATH="$HOME/miniconda/bin:$PATH"
+- hash -r
+- conda config --set always_yes yes --set changeps1 no
+- conda update -q conda
+- conda info -a
+- conda config --add channels looooo
+- conda config --add channels pybind
+- conda config --add channels anaconda
+- conda install --yes conda-build jinja2 anaconda-client anaconda-client
+script:
+- conda build ./packaging/conda
+- conda install laplacekernels --use-local
+after_success:
+- anaconda -t $ANACONDA_TOKEN upload --user looooo /home/travis/miniconda/conda-bld/linux-64/laplacekernels-0.0.1-4.tar.bz2
