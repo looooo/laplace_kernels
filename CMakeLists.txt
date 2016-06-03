@@ -22,6 +22,7 @@ endif()
 
 
 if (MAKE_PYTHON_BINDINGS)
+    set(Python_ADDITIONAL_VERSIONS)
     find_package(PythonInterp)
     find_package(PythonLibs)
     EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c 

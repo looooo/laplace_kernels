@@ -20,3 +20,7 @@ vortex
 
 Panel:
 monopole, dipole
+
+## PYTHON3:
+
+if the library is compiled with python3 uncheck the tests.

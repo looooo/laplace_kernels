@@ -1,7 +1,5 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <iostream>
-#include "string.h"
 #include "Eigen/Core"
 
 #include <vector>
@@ -11,10 +9,6 @@
 #include "laplaceKern2D.h"
 #include "laplaceKern3D.h"
 
-
-using std::cout;
-using std::endl;
-
 namespace py = pybind11;
 namespace l2 = laplaceKern2D;
 namespace l3 = laplaceKern3D;
@@ -23,12 +17,10 @@ namespace l3 = laplaceKern3D;
 // (l3::Vector (*)(const l3::Vector&, const l3::Vector&, const l3::Vector&)) &l3::vortex_v ->
 // this is for overloaded functions (returnType (*)(arg1type, arg2type...) &function-name)
 
-PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+// PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
 
-PYBIND11_PLUGIN(laplaceKern)
+void init_laplace_kernels(py::module &m)
 {
-    py::module::import("paraEigen");
-    py::module m("laplaceKern", "pybind11 example plugin");
     py::module m2 = m.def_submodule("D2", "2d elements");
     py::module m3 = m.def_submodule("D3", "3d elements");
 
@@ -98,7 +90,13 @@ PYBIND11_PLUGIN(laplaceKern)
         (const l3::Vector&, const l3::Panel&)) &l3::dip_mon_0_n0_v);
     m3.def("dip_mon_0_vsaero_v", (std::tuple<l3::Vector, l3::Vector> (*)
         (const l3::Vector&, const l3::Panel&)) &l3::dip_mon_0_vsaero_v);
-
-    return m.ptr();
 };
+
+
+PYBIND11_PLUGIN(laplaceKern)
+{
+    py::module m("laplaceKern", "laplace_kernels");
+    init_laplace_kernels(m);
+    return m.ptr();
+}
 
