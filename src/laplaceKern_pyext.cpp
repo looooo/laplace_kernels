@@ -17,7 +17,7 @@ namespace l3 = laplaceKern3D;
 // (l3::Vector (*)(const l3::Vector&, const l3::Vector&, const l3::Vector&)) &l3::vortex_v ->
 // this is for overloaded functions (returnType (*)(arg1type, arg2type...) &function-name)
 
-// PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
+PYBIND11_DECLARE_HOLDER_TYPE(T, std::shared_ptr<T>);
 
 void init_laplace_kernels(py::module &m)
 {
