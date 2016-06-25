@@ -57,7 +57,7 @@ namespace laplaceKern2D
 
     double source_0(const Vector& target, const Panel& source)
     { 
-        double pn, dx1, dx2, a, b, c;
+        double pn, dx1, dx2, a, b;
         pn = (target - source.center).dot(source.normal);
         dx1 = (*source.points[0] - target).dot(source.tangent);
         dx2 = (*source.points[1] - target).dot(source.tangent);
@@ -78,7 +78,7 @@ namespace laplaceKern2D
             b = - dx2 * log(dx2 * dx2 + pn * pn);
         }
         c = 2 * pn * (atan2(pn, dx2) - atan2(pn, dx1));
-        return -(a + b) / (4. * M_PI);
+        return -(a + b + c) / (4. * M_PI);
     }
 
     Vector source_v(const Vector& target, const Vector& source)
