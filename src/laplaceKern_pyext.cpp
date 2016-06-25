@@ -33,16 +33,16 @@ void init_laplace_kernels(py::module &m)
         .def_readonly("tangent", &l2::Panel::tangent)
         .def_readonly("points", &l2::Panel::points);
 
-    m2.def("doublet", &l2::doublet);
-    m2.def("source", &l2::source);
+    m2.def("dipole", &l2::dipole);
+    m2.def("monopole", &l2::monopole);
     m2.def("vortex", &l2::vortex);
-    m2.def("source_0", &l2::source_0);
-    m2.def("doublet_0", &l2::doublet_0);
-    m2.def("doublet_v", &l2::doublet);
-    m2.def("source_v", &l2::source);
-    m2.def("vortex_v", &l2::vortex);
-    m2.def("source_0_v", &l2::source_0);
-    m2.def("doublet_0_v", &l2::doublet_0);
+    m2.def("monopole_0", &l2::monopole_0);
+    m2.def("dipole_0", &l2::dipole_0);
+    m2.def("dipole_v", &l2::dipole_v);
+    m2.def("monopole_v", &l2::monopole_v);
+    m2.def("vortex_v", &l2::vortex_v);
+    m2.def("monopole_0_v", &l2::monopole_0_v);
+    m2.def("dipole_0_v", &l2::dipole_0_v);
 
     /************************-3D SINGULARITY ELEMENTS-************************/
     py::class_<l3::Panel>(m3, "Panel", "a 3d panel")

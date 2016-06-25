@@ -26,7 +26,7 @@ namespace laplaceKern2D
         return 1. / 2. / M_PI * log((target - source).norm());
     }
 
-    double doublet(const Vector& target, const Vector& source, Vector direction)
+    double dipole(const Vector& target, const Vector& source, Vector direction)
     {
         Vector r = target - source;
         direction.normalize();
@@ -43,7 +43,7 @@ namespace laplaceKern2D
         return - atan2(pn , dx) / (2. * M_PI);  
     }
 
-    double doublet_0(const Vector& target, const Panel& source)
+    double dipole_0(const Vector& target, const Panel& source)
     {
         double pn = (target - source.center).dot(source.normal);
         double dx1 = (*source.points[0] - target).dot(source.tangent);
@@ -55,9 +55,9 @@ namespace laplaceKern2D
         return - (atan2(pn , dx2) - atan2(pn , dx1)) / (2. * M_PI);  
     }
 
-    double source_0(const Vector& target, const Panel& source)
+    double monopole_0(const Vector& target, const Panel& source)
     { 
-        double pn, dx1, dx2, a, b;
+        double pn, dx1, dx2, a, b, c;
         pn = (target - source.center).dot(source.normal);
         dx1 = (*source.points[0] - target).dot(source.tangent);
         dx2 = (*source.points[1] - target).dot(source.tangent);
@@ -88,7 +88,7 @@ namespace laplaceKern2D
         return 1. / 2. / M_PI * r / r.dot(r);
     }
 
-    Vector doublet_v(const Vector& target, const Vector& source, Vector direction)
+    Vector dipole_v(const Vector& target, const Vector& source, Vector direction)
     {
         direction.normalize();
         Vector r = (target - source);
@@ -112,7 +112,7 @@ namespace laplaceKern2D
         return normal2(r / r.dot(r) / 2 / M_PI);
     }
 
-    Vector doublet_0_v(const Vector& target, const Panel& source)
+    Vector dipole_0_v(const Vector& target, const Panel& source)
     {
         Vector u, w, r1, r2;
         double pn, dx1, dx2;
@@ -138,7 +138,7 @@ namespace laplaceKern2D
         return - (w - u) / M_PI / 2;
     }
 
-    Vector source_0_v(const Vector& target, const Panel& source)
+    Vector monopole_0_v(const Vector& target, const Panel& source)
     { 
         double pn = (target - source.center).dot(source.normal);
 
