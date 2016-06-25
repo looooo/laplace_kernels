@@ -27,4 +27,4 @@ script:
 - conda build ./packaging/conda
 - conda install laplacekernels --use-local
 after_success:
-- anaconda -t $ANACONDA_TOKEN upload --user looooo /home/travis/miniconda/conda-bld/linux-64/laplacekernels-0.0.1-4.tar.bz2
+- anaconda -t $ANACONDA_TOKEN upload --user looooo /home/travis/miniconda/conda-bld/linux-64/laplacekernels*

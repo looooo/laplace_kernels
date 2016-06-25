@@ -11,13 +11,13 @@ source:
 requirements:
   build:
     - python
-    - pybind11
+    - pybind11        # pybind
     - cmake
-    - eigen           #   - https://conda.anaconda.org/rmg
-    - vtk
+    - eigen           # rmg
+    - paraeigen       # openglider
   run:
     - python
-    - vtk
+    - paraeigen
 
 about:
   summary: Some laplace kernels

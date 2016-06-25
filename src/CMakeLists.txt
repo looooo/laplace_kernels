@@ -3,7 +3,7 @@ add_library(laplaceKern2D SHARED laplaceKern2D.cpp ${headers})
 add_library(laplaceKern3D SHARED laplaceKern3D.cpp ${headers})
 
 # installing
-install(TARGETS laplaceKern2D laplaceKern3D LIBRARY DESTINATION lib/laplace)
+install(TARGETS laplaceKern2D laplaceKern3D LIBRARY DESTINATION lib)
 install(FILES laplaceKern2D.h laplaceKern3D.h DESTINATION include/laplace)
 
 # testing
@@ -21,5 +21,6 @@ endif()
 if (MAKE_PYTHON_BINDINGS)
     PYTHON_ADD_MODULE(laplaceKern SHARED laplaceKern_pyext.cpp) 
     target_link_libraries(laplaceKern laplaceKern2D laplaceKern3D)
+	set_target_properties(laplaceKern PROPERTIES INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib)
     install(TARGETS laplaceKern DESTINATION ${python_libs})
 endif()
