@@ -20,7 +20,7 @@ namespace laplaceKern2D
         this->normal = normal2(this->tangent);
     }
 
-    double source(const Vector& target, const Vector& source)
+    double monopole(const Vector& target, const Vector& source)
     {
         if ((target - source).norm() == 0){return 0;}
         return 1. / 2. / M_PI * log((target - source).norm());
@@ -81,7 +81,7 @@ namespace laplaceKern2D
         return -(a + b + c) / (4. * M_PI);
     }
 
-    Vector source_v(const Vector& target, const Vector& source)
+    Vector monopole_v(const Vector& target, const Vector& source)
     {
         Vector r= target - source;
         if (r.norm() == 0){return r * 0;}
