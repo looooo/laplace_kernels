@@ -26,8 +26,8 @@ variable names
     a Panel                            panel        or  pan
     the influence object               source       or  src
     the target object                  target       or  trg
-    a monopol or monopol panel         monopole     or  mon
-    a doublet or doublet panel         dipole       or  dip
+    a monopole or source panel         monopole     or  mon
+    a dipole or douplet panel          dipole       or  dip
     a velocity vector                  velocity     or  vel
     the potential                      potential    or  pot
     the jump in potential                               mue
@@ -49,9 +49,10 @@ namespace laplaceKern2D
         Vector center, normal, tangent;
         double area = 0.;
     };
+
+
+    typedef std::shared_ptr<Panel> PanelPtr;
     
-
-
 
     /************************-2D ELEMENT INFLUENCE-*********************/
 

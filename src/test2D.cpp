@@ -17,12 +17,12 @@ laplaceKern3D::Vector toVector3(Vector vec)
 double test_monopole(double x, double y, double z)
 {
     Vector v (x, y);
-    return source(v, pan.center);
+    return monopole(v, pan.center);
 }
 double test_dipole(double x, double y, double z)
 {
     Vector v (x, y);
-    return doublet(v, pan.center, pan.tangent);
+    return dipole(v, pan.center, pan.tangent);
 }
 double test_vortex(double x, double y, double z)
 {
@@ -32,22 +32,22 @@ double test_vortex(double x, double y, double z)
 double test_dipole_0(double x, double y, double z)
 {
     Vector v (x, y);
-    return doublet_0(v, pan);
+    return dipole_0(v, pan);
 }
 double test_monopole_0(double x, double y, double z)
 {
     Vector v (x, y);
-    return source_0(v, pan);
+    return monopole_0(v, pan);
 }
 laplaceKern3D::Vector test_monopole_v(double x, double y, double z)
 {
     Vector v (x, y);
-    return toVector3(source_v(v, pan.center));
+    return toVector3(monopole_v(v, pan.center));
 }
 laplaceKern3D::Vector test_dipole_v(double x, double y, double z)
 {
     Vector v (x, y);
-    return toVector3(doublet_v(v, pan.center, pan.normal));
+    return toVector3(dipole_v(v, pan.center, pan.normal));
 }
 laplaceKern3D::Vector test_vortex_v(double x, double y, double z)
 {
@@ -57,12 +57,12 @@ laplaceKern3D::Vector test_vortex_v(double x, double y, double z)
 laplaceKern3D::Vector test_monopole_0_v(double x, double y, double z)
 {
     Vector v (x, y);
-    return toVector3(source_0_v(v, pan));
+    return toVector3(monopole_0_v(v, pan));
 }
 laplaceKern3D::Vector test_dipole_0_v(double x, double y, double z)
 {
     Vector v (x, y);
-    return toVector3(doublet_0_v(v, pan));
+    return toVector3(dipole_0_v(v, pan));
 }
 
 

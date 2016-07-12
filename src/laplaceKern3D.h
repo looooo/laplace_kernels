@@ -52,7 +52,10 @@ namespace laplaceKern3D
         double area;
         double side_sum;
     };
+
+    typedef std::shared_ptr<Panel> PanelPtr;
     
+
     class Edge
     {
     public:
@@ -62,6 +65,7 @@ namespace laplaceKern3D
         Vector tangent;
     };
 
+    typedef std::shared_ptr<Edge> EdgePtr;
     // /************************-3D ELEMENT INFLUENCE-*********************/
     double monopole(const Vector& target, const Vector& source);
     double monopole_0_n0(const Vector& target, const Panel& source);
